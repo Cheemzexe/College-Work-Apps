@@ -1,0 +1,76 @@
+
+#############################################################################################################################################
+
+def sign_up_validation(): #validates the user input on the sign up window 
+	First_Name = FName_textbox.value 
+	Last_Name = LName_textbox.value
+	Password = Pwd_textbox.value
+
+	if First_Name == "": #checks if user has input anything in the first name field
+		info("Sign up Error","Please input your first name") #error message
+	elif Last_Name == "":#checks if user has input anything in the last name field
+		info("Sign up Error","Please input your last name")#error message
+	elif First_Name.isalpha()  == False: #checks if user has input anything but the alphabet for the name
+		info ("Sign up Error", "Invalid first name")#error message
+	elif Last_Name.isalpha()  == False: #checks if user has input anything but the alphabet for the name
+		info ("Sign up Error", "Invalid last name")#error message
+	elif Username_textbox.value == "": #checks if user has input anything in the username name field
+		info("Sign up Error","Please input a Username")#error message
+	elif len(Password) <8 or len(Password) >20: #this makes sure the user only input 8 - 20 characters for password
+		info("Sign up Error","Password must be 8 - 20 characters")#error message
+	elif Pwd_textbox.value != PwdCon_textbox.value: #this makes sure the confirmation password match the password
+		info("Sign up Error","Password doesn't match")#error message
+	elif DOB_textbox.value == "":
+		info("Sign up Error","Please Input Your Date Of Birth")#error message
+	elif validateDate(DOB_textbox.value) == False:
+		info("Sign up Error","Date Of Birth format is incorrect")#error message
+	elif numdays_dates(DOB_textbox.value) <13:
+		info("Sign up Error","You Must be 13 or older to sign up")#error message
+
+
+	else:
+		hashed_pw = hashlib.sha512(Pwd_textbox.value.encode('utf8')).hexdigest() #GDPR HASH PROTECTION
+		InsertdataSQL = ("INSERT INTO User (User_Firstname, User_surname, User_Name, User_Password ) VALUES ('"+ str(FName_textbox.value) + "', '"+ str(LName_textbox.value) + "','" + str(Username_textbox.value) + "', '" + str(hashed_pw) +"')")
+		execute_sql(database_file,InsertdataSQL) #input the new user into the database
+		info("Sign up Successful", "Sign up Successful! Please Log In.")#pop up message
+
+		sign_up.hide() #closes sign_up window 
+		app.show() #open login window
+
+
+#######################################################################################################################################################
+
+#SIGNUP WINDOW GUIZERO
+
+sign_up = Window(app,title = "Sign Up", layout = 'grid', bg = "#CAC8B6")#this creates the sign up window
+sign_up.hide() # hides the window until called to open
+sign_up_message = Text(sign_up, text=" Join Us Today!",font="arial black", grid = [1,0])#this tells the user what the window is for
+FName_signup = Text(sign_up, text= "First Name:",font="arial black", grid =[0,1])#this tells the user what to enter
+FName_textbox = TextBox(sign_up,width = 30, grid = [1,1])#this gives the user space to enter the name
+LName_signup = Text(sign_up, text= "Last Name:",font="arial black", grid =[0,2])#this tells the user what to enter
+LName_textbox = TextBox(sign_up,width = 30, grid = [1,2])#this gives the user space to enter the name
+Username_signup = Text(sign_up, text= "Username:",font="arial black", grid =[0,5])#this tells the user what to enter
+Username_textbox = TextBox(sign_up,width = 30,  grid =[1,5])#this gives the user space to enter the username
+Pwd_signup = Text(sign_up, text= "Password:",font="arial black", grid =[0,6])#this tells the user what to enter
+Pwd_textbox = TextBox(sign_up, width = 30, grid =[1,6])#this gives the user space to enter the password 
+PwdCon_signup = Text(sign_up, text= "Confirm Password:",font="arial black", grid =[0,7])#this tells the user what to enter
+PwdCon_textbox = TextBox(sign_up, width = 30, grid =[1,7])#this gives the user space to enter the password
+DOB_signup = Text(sign_up, text= "Date Of Birth DD/MM/YYYY",font="arial black", grid =[0,8])
+DOB_textbox = TextBox(sign_up, width = 30, grid =[1,8])#this gives the user space to enter the password
+terms_check = CheckBox(sign_up, text="I agree to the terms and conditions.", command=check_terms, grid = [1,9])
+sbtn_sign_up = PushButton(sign_up, text="Sign Up", command= sign_up_validation, grid = [1,10], width = 15)# this allows the user to try and sign up 
+sbtn_sign_up.disable()
+sbtn_sign_up.font = "Bodoni MT Black"
+sbtn_sign_up.bg = "#93ccad"
+btn_back= PushButton(sign_up, text="Back", command=back_home, grid = [1,11],  width = 15)  #this allows the user to go back to the main menu
+btn_back.font = "Bodoni MT Black"
+btn_back.bg = "#93ccad"
+picture = Picture(sign_up, image="FitnessLogo.png", width = 200, height = 100, grid=[1,12])
+
+menubar = MenuBar(sign_up,    #THIS IS THE ACCESSABILITY FEATURES WHERE YOU CAN CHANGE THE FONTS , SIZES AND EITHER DARK OR LIGHT MODE  DOING THIS COMPLIES WITH WCAG AND GDPR
+                  toplevel=["Apperance","Fonts","Size"],
+                  options=[
+                      [ ["Light Mode", Light_Mode], ["Dark Mode", Dark_Mode] ],
+					  [ ["Courier", Courier_font], ["Verdana", Verdana_font], ["Helvetica", Helvetica_font] ],
+					  [["10%", Zoom10],["20%", Zoom10],["30%", Zoom10],["40%", Zoom10],["50%", Zoom10]]
+                  ])
