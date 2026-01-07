@@ -1,0 +1,51 @@
+sql = """
+CREATE TABLE "User" (
+	"UserID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"User_Firstname"	TEXT,
+	"User_surname"     TEXT, 
+	"User_Name"     TEXT,
+	"User_Password"  TEXT,
+	"User_DOB"  TEXT,
+	"User_Premium"  INT,
+	"User_Email"  TEXT
+);
+CREATE TABLE "Fitness" (
+	"Fitness_ID"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"Fitness_Date" TEXT,
+	"Fitness_Weight" INT,
+	"Fitness_Steps" INT,
+	"UserID" INTEGER,
+	FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+insert into User (User_Firstname, User_surname, User_Name, User_Password, User_DOB, User_Premium, User_Email) values ('Nathan','Peacock','Cheemz','4dff4ea340f0a823f15d3f4f01ab62eae0e5da579ccb851f8db9dfe84c58b2b37b89903a740e1ee172da793a6e79d560e5f7f9bd058a12a280433ed6fa46510a','21/10/2006','1','Cheemz@gmail.com');
+insert into User (User_Firstname, User_surname, User_Name, User_Password, User_DOB, User_Premium, User_Email) values ('Free','Peacock','FreeCheemz','4dff4ea340f0a823f15d3f4f01ab62eae0e5da579ccb851f8db9dfe84c58b2b37b89903a740e1ee172da793a6e79d560e5f7f9bd058a12a280433ed6fa46510a','21/10/2006','0','FreeCheemz@gmail.com');
+insert into User (User_Firstname, User_surname, User_Name, User_Password, User_DOB, User_Premium, User_Email) values ('Kieran','Jackson','FordGayA','4dff4ea340f0a823f15d3f4f01ab62eae0e5da579ccb851f8db9dfe84c58b2b37b89903a740e1ee172da793a6e79d560e5f7f9bd058a12a280433ed6fa46510a','18/06/2007','1','Kieran@gmail.com');
+insert into User (User_Firstname, User_surname, User_Name, User_Password, User_DOB, User_Premium, User_Email) values ('Max','Tinslay','TinSlay','4dff4ea340f0a823f15d3f4f01ab62eae0e5da579ccb851f8db9dfe84c58b2b37b89903a740e1ee172da793a6e79d560e5f7f9bd058a12a280433ed6fa46510a','20/10/2006','1','Slay@gmail.com');
+insert into Fitness ( Fitness_Date, Fitness_Weight,Fitness_Steps, UserID) values ('21/10/2024','60.56', 1000,'1');
+insert into Fitness ( Fitness_Date, Fitness_Weight,Fitness_Steps, UserID) values ('24/10/2024','65.56', 1600,'1');
+insert into Fitness ( Fitness_Date, Fitness_Weight,Fitness_Steps, UserID) values ('25/10/2024','55.00', 1800,'2');
+insert into Fitness ( Fitness_Date, Fitness_Weight,Fitness_Steps, UserID) values ('26/10/2024','55.00', 2000,'3');
+insert into Fitness ( Fitness_Date, Fitness_Weight,Fitness_Steps, UserID) values ('27/10/2024','55.00', 6000,'4');
+"""
+#
+# global database name
+database_file = 'Fitness.db'
+# global user ID used as foreign key
+global user_LoggedIn
+# Delete the database
+# in case it already exists
+#
+if os.path.exists(database_file):
+  os.remove(database_file)
+#
+# Connect to the database
+#
+conn = sqlite3.connect(database_file)
+# Get a cursor pointing to the database
+cursor = conn.cursor()
+# Create the tables
+cursor.executescript(sql)
+# Commit to save everything
+conn.commit()
+# Close the connection to the database
+conn.close()
