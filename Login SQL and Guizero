@@ -1,0 +1,69 @@
+
+#############################################################################################################################################
+
+def login_user(): # Login function
+	global user_LoggedIn ## variable needed to know who logged in ##
+	global premium_user ## Variable used to see if user has paid for premium
+	if username_textbox.value == "":
+		info("Error", "You must enter a valid username")
+	elif password_textbox.value == "":
+		info("Error", "You must enter a password")
+	elif "'" in password_textbox.value or "'" in username_textbox.value: # added code  #GDPR SQL REJECT
+		info("Error", "WOAH WOAH WOAH nahhh man no SQL here")
+
+		
+	sqlselect = "SELECT * FROM User WHERE User_Name = '"+username_textbox.value+"'"
+	rows = query_database(database_file, sqlselect)
+	
+	if len(rows) == 0:
+		info("error","you have not been found on the database")
+	else:
+	
+		store_pw= rows [0][4]
+		hashed_pw = hashlib.sha512(password_textbox.value.encode('utf8')).hexdigest() #GDPR HASH PROTECTION
+		if hashed_pw == store_pw:
+			info("Correct","Password all good")
+			user_LoggedIn = rows [0][0]
+			premium_user = rows [0][6] # This indicates if the user is free or premium
+			open_Dashboard()
+			app.hide()
+		else:
+			info("incorrect", "Password Incorrect")
+
+#########################################################################################################
+
+## LOGIN GUIZERO WINDOW
+app = App(title = "TOKA FITNESS", bg = "#CAC8B6", width = 1000 , height = 500)#this creates the sign up window
+topbox = Box(app, layout="grid", width = 600 , height = 500 , border = False , align = "left") # CHANGE BORDER TO TRUE FOR TESTING TO SEE BORDER
+text_blank = Text(topbox, text=" " , size = 20 , grid = [0,0])
+Username_Login = Text(topbox, text= "Username:",font="Britannic Bold",  grid =[0,1] )#this tells the user what to enter
+username_textbox = TextBox(topbox,width = 30, grid = [1,1])#this gives the user space to enter the name
+Password_Login = Text(topbox, text= "Password:",font="Britannic Bold", grid =[0,2])#this tells the user what to enter
+password_textbox = TextBox(topbox,width = 30, grid = [1,2],hide_text=True)
+cookie_check = CheckBox(topbox, text="I agree to the use of cookies.", command=check_cookies, grid = [1,3])
+ForgetB = PushButton(topbox, text="forget password", command=Forget_Password, grid = [1,4], width = 15 , height = 0)
+ForgetB.font = "Britannic Bold"
+ForgetB.bg = "#93ccad"
+text_blank = Text(topbox, text=" " , size = 20 , grid = [1,5])
+text_blank = Text(topbox, text=" " , size = 20 , grid = [0,5])
+open_button = PushButton(topbox, text="log in", command=login_user, grid = [0,7], width = 15)
+open_button.disable()
+open_button.bg = "#93ccad"
+open_button.font = "Britannic Bold"
+btn_exit = PushButton(topbox, text="Exit", command=exit, grid = [1,7],  width = 15)
+btn_exit.font = "Britannic Bold"
+btn_exit.bg = "#93ccad"
+btn_sign_up = PushButton(topbox, text="Sign Up", command= open_signup, grid = [2,7], width = 15)# this allows the user to try and sign up 
+btn_sign_up.font = "Britannic Bold"
+btn_sign_up.bg = "#93ccad"
+picbox = Box(app, layout="grid", grid=[0,40],border = True) # CHANGE BORDER TO TRUE FOR TESTING TO SEE BORDER
+picbox.bg = "#CAC8B6"
+picture = Picture(picbox, image="FitnessLogo.png", width = 400, height = 200, grid=[0,40], align = "right")
+
+menubar = MenuBar(app,   #THIS IS THE ACCESSABILITY FEATURES WHERE YOU CAN CHANGE THE FONTS , SIZES AND EITHER DARK OR LIGHT MODE  DOING THIS COMPLIES WITH WCAG AND GDPR
+                  toplevel=["Apperance","Fonts","Size"],
+                  options=[
+                      [ ["Light Mode", Light_Mode], ["Dark Mode", Dark_Mode] ],
+					  [ ["Courier", Courier_font], ["Verdana", Verdana_font], ["Helvetica", Helvetica_font] ],
+					  [["10%", Zoom10],["20%", Zoom20],["30%", Zoom30],["40%", Zoom40],["50%", Zoom50]]
+                  ])
