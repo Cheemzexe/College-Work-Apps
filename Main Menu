@@ -1,0 +1,52 @@
+def open_Dashboard():  #Opens the main menu dashboard
+	if premium_user == 1:
+		Confirmation_run()
+	MainMenu.show()
+
+###############################################################
+
+MainMenu= Window(app,title='Book Now', width=580, layout = 'grid') # names the window which has everything in
+MainMenu.hide() # hides the window until called to open
+
+MainMenu.bg = "#CAC8B6" # changes the background
+btn_Plan= PushButton(MainMenu, text="Healthy Eating Planner", command=HealthyShow, grid = [1,1],  width = 20)  #this allows the user to go back to the main menu
+btn_Plan.font = "Bodoni MT Black"
+btn_Plan.bg = "#93ccad"
+
+btn_Advice= PushButton(MainMenu, text="Fitness And Health Advice", command=AdviceShow, grid = [1,2] ,width = 20)  #this allows the user to go back to the main menu
+btn_Advice.font = "Bodoni MT Black"
+btn_Advice.bg = "#93ccad"
+
+btn_Premium= PushButton(MainMenu, text="Sign Up For Premium", command=PremiumShow, grid = [1,3] ,  width = 20)  #this allows the user to go back to the main menu
+btn_Premium.font = "Bodoni MT Black"
+btn_Premium.bg = "#93ccad"
+
+picture = Picture(MainMenu, image="FitnessLogo.png", width = 200, height = 200, grid=[2,2])
+picture = Picture(MainMenu, image="Premium.png", width = 200, height = 200, grid=[2,5])
+
+btn_CreateWorkout= PushButton(MainMenu, text="Create A Workout (Premium)", command=CreateWorkoutShow, grid = [3,1],  width = 20)  #this allows the user to go back to the main menu
+btn_CreateWorkout.disable()
+btn_CreateWorkout.font = "Bodoni MT Black"
+btn_CreateWorkout.bg = "#93ccad"
+
+btn_FitnessTracker= PushButton(MainMenu, text="Fitness Tracker (Premium)", command=FitnessTrackerShow, grid = [3,2],  width = 20)  #this allows the user to go back to the main menu
+btn_FitnessTracker.disable()
+btn_FitnessTracker.font = "Bodoni MT Black"
+btn_FitnessTracker.bg = "#93ccad"
+
+btn_UserSocials= PushButton(MainMenu, text="User Socials (Premium)", command=UserSocialsShow, grid = [3,3],  width = 20)  #this allows the user to go back to the main menu
+btn_UserSocials.disable()
+btn_UserSocials.font = "Bodoni MT Black"
+btn_UserSocials.bg = "#93ccad"
+
+
+
+
+ 
+menubar = MenuBar(MainMenu,   #THIS IS THE ACCESSABILITY FEATURES WHERE YOU CAN CHANGE THE FONTS , SIZES AND EITHER DARK OR LIGHT MODE  DOING THIS COMPLIES WITH WCAG AND GDPR
+                  toplevel=["Apperance","Fonts","Size"],
+                  options=[
+                      [ ["Light Mode", Light_Mode], ["Dark Mode", Dark_Mode] ],
+					  [ ["Courier", Courier_font], ["Verdana", Verdana_font], ["Helvetica", Helvetica_font] ],
+					  [["10%", Zoom10],["20%", Zoom20],["30%", Zoom30],["40%", Zoom40],["50%", Zoom50]]
+                  ])
