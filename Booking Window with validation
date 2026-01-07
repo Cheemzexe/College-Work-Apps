@@ -1,0 +1,110 @@
+def numdays_dates(Start_date,End_date):
+# https://thispointer.com/python-get-difference-between-two-dates-in-days/
+#
+	from datetime import datetime
+	#date_1 = '8/11/2022'   #  Test start date DATES ARE ASSUMED TO BE IN THIS FORMAT
+	#date_2 = '7/11/2022'   # Test end end DATES ARE ASSUMED TO BE IN THIS FORMAT
+	start = datetime.strptime(Start_date, "%d/%m/%Y")
+	end =   datetime.strptime(End_date, "%d/%m/%Y")
+	# get the difference between two dates as timedelta object
+	diff = end.date() - start.date()
+	print('Difference between dates in days:')
+	print(diff.days)      # negative means date1 is after date 2
+	x = diff.days
+	return x
+
+##################################################################################################################################################################################################################
+
+def future_date(date_choice):
+  import datetime as datetime
+  date_list = date_choice.split('/')
+  print(date_list)
+  date_list = [int(x) for x in date_list]
+  today = datetime.date.today()
+  date_check = datetime.date(date_list[2], date_list[1], date_list[0])
+  if date_check > today:
+    return True
+  else:
+    return False
+###################################################################################################################################################################################################################
+
+def date_compare(Start_date,End_date):
+	#split dates into day , month , year.
+	sday,smonth,syear = Start_date.split("/")
+	eday,emonth,eyear = End_date.split("/")
+
+	# Convert to integers
+	syear,smonth,sday = int(syear),int(smonth),int(sday)
+	eyear,emonth,eday = int(eyear),int(emonth),int(eday)
+
+	# Check that end date is greater than start date.
+
+	if eyear > syear or (eyear == syear and emonth > smonth) or (eyear == syear and emonth == smonth and eday >= sday):
+		return True # Return true if End date is greater than start date.
+	else:
+		return False
+##################################################################################################################################################################################################################
+
+def Booking_Validation(): #validates the user input on the sign up window 
+	
+	CarType = car_type.value 
+	CarQualt = car_qual.value
+	CarRegi = car_reg.value
+	Start_date = Date_chosen.value
+	End_date = Date_chosen2.value
+
+	if CarType == "": #checks if user has input anything in the first name field
+		info("Booking Error","Car Type Must Be Entered") #error message
+	elif CarQualt == "":#checks if user has input anything in the last name field
+		info("Booking Error","Car Quality Must Be Selected")#error message
+	elif CarRegi  == "": #checks if user has input anything but the alphabet for the name
+		info ("Booking Error", "Car Registration Must Be Selected")#error message
+	elif Start_date == "":
+		info("Booking Error", "Start Date Must Be Entered.")
+	elif future_date(Start_date) == False:
+		info("Booking Error", "Start Date Must Be the future.")
+	elif End_date == "":
+		info("Booking Error", "End Date Must Be Entered.")
+	elif future_date(End_date) == False:
+		info("Booking Error", "End Date Must Be the future.")
+	elif date_compare(Start_date,End_date) == False:
+		info("Booking Error", "End Date Must Be Greater Than The Start Date.")
+		
+	
+	else:
+		info("Booking Successful", "Booking Successful, Please Press Pay to continue.")#pop up message
+		payment.show()
+
+##################################################################################################################################################################################################################
+
+Booking= Window(app,title='Book Now', width=600)# layout = 'grid') # names the window which has everything in
+Booking.hide() # hides the window until called to open
+#
+box = Box(Booking, layout="grid")
+Booking.bg = "#e5e5e5" # changes the background
+booking_message = Text(box, text="Book a Car!", grid = [1,0],align="left")#this tells the user what the window is for
+car_message = Text(box, text ="Select The car type:", grid = [0,1], align="left")#this tells the user what to choose
+car_type = Combo(box, options = ("SUV","SUDAN","SPORTS"),width = 15, grid = [1,1], align="left")#this gives the user to select the car type
+qual_message = Text(box, text ="Select The car quality:", grid = [0,2], align="left")#this tells the user what to choose
+car_qual = Combo(box, options = ("HIGH END","MID RANGE","LOW END"),width = 15, grid = [1,2], align="left")
+reg_message = Text(box, text ="Select The Custom Car Reg:", grid = [0,3], align="left")#this tells the user what to choose
+car_reg = Combo(box, options = ("PR0 M5S","C1A SS1C","LU4 XY5"),width = 15, grid = [1,3], align="left")#this gives the user to select the car type
+Date_message = Text(box, text ="Select the start date:", grid = [0,4], align="left")#this tells the user what to choose
+Date_chosen = TextBox(box, text ="", grid = [1,4])#this shows the user what date they had chose
+Date_message2 = Text(box, text ="Select the end date:", grid = [0,5], align="left")#this tells the user what to choose
+Date_chosen2 = TextBox(box, text ="", grid = [1,5])#this shows the user what date they had chose
+Booking_date = PushButton(box, text = "--Please Select--", command = date_btn,grid = [2,4]) #this allows the calander to pop up and let the user 
+Booking_date1 = PushButton(box, text = "--Please Select--", command = date_btn2,grid = [2,5]) #this allows the calander to pop up and let the user 
+Settings = PushButton(box, text = "--⚙️SETTINGS⚙️--", command = open_settings,grid = [1,7])
+Book = PushButton(box, text = "--🕮BOOK🕮--", command = Booking_Validation ,grid = [1,6])
+btn_back= PushButton(box, text="Back", command= back_dash, grid = [1,8],  width = 15) 
+picture = Picture(box, image="Cheemzauto.png", width = 200, height = 100, grid=[1,9])
+
+
+menubar = MenuBar(Booking,
+                  toplevel=["Apperance","Fonts","Size"],
+                  options=[
+                      [ ["Light Mode", Light_Mode], ["Dark Mode", Dark_Mode] ],
+					  [ ["Courier", Courier_font], ["Verdana", Verdana_font], ["Helvetica", Helvetica_font] ],
+					  [["10%", Zoom10],["20%", Zoom20],["30%", Zoom30],["40%", Zoom40],["50%", Zoom50]]
+                  ])
