@@ -1,0 +1,18 @@
+def graph():
+    lconn = sqlite3.connect(database_file)
+    c = lconn.cursor()
+
+    c.execute("SELECT product_desc,AVG(review_rating) AS Average_Rating FROM product LEFT JOIN review ON product.productID = review.productID GROUP BY product.product_desc")
+    
+    data = c.fetchall()
+    df = pd.DataFrame(data,columns=["product_desc","Average_Rating"])
+    print(df)
+    lconn.close()
+
+    plt.bar(df["product_desc"],df["Average_Rating"],color="pink")
+    plt.xlabel("Product")
+    plt.ylabel("Average Rating")
+    plt.title("Average Ratings for each product")
+    plt.xticks(rotation=45)
+    #plt.tight_layout()
+    plt.show()
