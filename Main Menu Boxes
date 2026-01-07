@@ -1,0 +1,35 @@
+MainMenu= Window(app,title='Book Now', width=550) # names the window which has everything in
+MainMenu.hide() # hides the window until called to open
+
+topboxs = Box(MainMenu, width = 600 , height = 50 , border = False , align = "top") # CHANGE BORDER TO TRUE FOR TESTING TO SEE BORDER
+
+
+MainMenu.bg = "#CAC8B6" # changes the background
+
+Review_button= PushButton(topboxs, text="Leave Review", command=review_open,  width = 20, align = "left")  #this allows the user to go back to the main menu
+Review_button.font = "Bodoni MT Black"
+Review_button.bg = "#93ccad"
+
+PreOrder_button= PushButton(topboxs, text="Pre-Order", command=preorder_open,width = 20, align = "left")  #this allows the user to go back to the main menu
+PreOrder_button.font = "Bodoni MT Black"
+PreOrder_button.bg = "#93ccad"
+
+StaffButton= PushButton(topboxs, text="Staff Only", command=None, width = 20, align = "left")  #this allows the user to go back to the main menu
+StaffButton.disable()
+StaffButton.font = "Bodoni MT Black"
+StaffButton.bg = "#93ccad"
+
+picture = Picture(MainMenu, image="Coffee.jpg", width = 400, height = 400, align = "middle")
+#picture = Picture(MainMenu, image="Premium.png", width = 200, height = 200, grid=[2,5])
+
+
+
+
+
+menubar = MenuBar(MainMenu,   #THIS IS THE ACCESSABILITY FEATURES WHERE YOU CAN CHANGE THE FONTS , SIZES AND EITHER DARK OR LIGHT MODE  DOING THIS COMPLIES WITH WCAG AND GDPR
+                  toplevel=["Apperance","Fonts","Size"],
+                  options=[
+                      [ ["Light Mode", Light_Mode], ["Dark Mode", Dark_Mode] ],
+					  [ ["Courier", Courier_font], ["Verdana", Verdana_font], ["Helvetica", Helvetica_font] ],
+					  [["10%", Zoom10],["20%", Zoom20],["30%", Zoom30],["40%", Zoom40],["50%", Zoom50]]
+                  ])
