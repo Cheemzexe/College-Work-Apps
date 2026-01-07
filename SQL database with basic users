@@ -49,3 +49,24 @@ cursor.executescript(sql)
 conn.commit()
 # Close the connection to the database
 conn.close()
+
+
+def query_database(database, query): ### function to execute the query
+	Lconn = sqlite3.connect(database)
+	cur = Lconn.cursor()			# use a local cursor
+	cur.execute(query)
+	rows = cur.fetchall()
+	cur.close()
+	return rows
+#
+def execute_sql(database, sql_statement, parameters=()): #Function which executes the SQL statement to insert then update the rows
+	with sqlite3.connect(database) as Lconn:
+		cur = Lconn.cursor()
+		cur.execute(sql_statement, parameters)
+		return cur.lastrowid
+
+def execute_sql1(database, sql_statement): #Function which executes the SQL statement to insert then update the rows
+	with sqlite3.connect(database) as Lconn:
+		cur = Lconn.cursor()
+		cur.execute(sql_statement)
+		return cur.lastrowid
