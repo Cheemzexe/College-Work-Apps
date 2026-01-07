@@ -1,0 +1,43 @@
+def Dark_Mode(): #this is for accsessiblity for the user incase they struggle to see on a white back round
+	app.bg = "#434343" #changes the background to a dark colour
+	app.text_color = "#e5e5e5" #changes the font to a contrasting colour
+
+
+def Light_Mode():
+	#this is for accsessiblity for the user incase they struggle to see on a Black back round
+	app.bg = "#e5e5e5" #changes the background to a bright colour
+	app.text_color = "#434343" #changes the font to a contrasting colour
+
+def Courier_font():#this allows the user to change font
+	app.font =  "Courier" #changes the font
+
+def Verdana_font():
+	app.font =  "Verdana" #changes the font
+
+def Helvetica_font():
+	app.font = font = "Helvetica"#changes the font
+
+def Zoom10(): #changes the size of the text
+	app.text_size = 10 
+
+def Zoom20():	
+	app.text_size = 20
+
+def Zoom30():	
+	app.text_size = 30
+
+def Zoom40():	
+	app.text_size = 40
+
+def Zoom50():	
+	app.text_size = 50
+
+###################################################################################################################
+
+menubar = MenuBar(app,
+                  toplevel=["Apperance","Fonts","Size"],
+                  options=[
+                      [ ["Light Mode", Light_Mode], ["Dark Mode", Dark_Mode] ],
+					  [ ["Courier", Courier_font], ["Verdana", Verdana_font], ["Helvetica", Helvetica_font] ],
+					  [["10%", Zoom10],["20%", Zoom20],["30%", Zoom30],["40%", Zoom40],["50%", Zoom50]]
+                  ])
